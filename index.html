@@ -16,7 +16,8 @@
             --text: #334155;
             --btn-test: #ef4444;
             --btn-anki: #3b82f6;
-            --danger: #e11d48;
+            --alert-bg: #fff1f2;
+            --alert-text: #e11d48;
         }
 
         body { 
@@ -28,44 +29,51 @@
             line-height: 1.6;
         }
 
+        /* Header Styling */
         .app-header { 
             background: var(--white); 
             padding: 24px 20px; 
             text-align: center; 
             border-bottom: 1px solid #e2e8f0; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        /* 枠囲みのスタイル */
-        .school-tag {
-            display: inline-block;
-            border: 2px solid var(--danger);
-            color: var(--danger);
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: 800;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             margin-bottom: 10px;
         }
-
+        .school-badge { 
+            display: inline-block;
+            background: var(--alert-bg);
+            color: var(--alert-text);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            border: 1px solid #fda4af;
+        }
         .app-header h1 { 
             margin: 0; 
             font-size: 1.4rem; 
-            font-weight: 800; 
+            font-weight: 900; 
             color: var(--accent);
-            line-height: 1.4;
+            letter-spacing: -0.025em;
         }
         .app-header p { 
-            margin: 10px 0 0; 
+            margin: 6px 0 0; 
             font-size: 0.85rem; 
-            color: #64748b;
-            line-height: 1.5;
+            color: #64748b; 
         }
-        .warning-text {
-            color: var(--danger);
-            font-weight: bold;
-            display: block;
-            margin-top: 4px;
+        .warning-box {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin-top: 14px;
+            font-size: 0.75rem;
+            color: #475569;
+            width: fit-content;
+            max-width: 90%;
         }
 
         .container { padding: 15px; max-width: 600px; margin: 0 auto; }
@@ -84,7 +92,8 @@
         }
 
         #g1:checked ~ .tabs label[for="g1"],
-        #g2:checked ~ .tabs label[for="g2"] {
+        #g2:checked ~ .tabs label[for="g2"],
+        #g3:checked ~ .tabs label[for="g3"] {
             background: var(--accent); color: var(--white);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
@@ -100,6 +109,8 @@
         summary::after { content: "＋"; font-size: 1.2rem; color: #94a3b8; transition: 0.3s; }
         details[open] summary::after { transform: rotate(45deg); content: "＋"; }
 
+        .subj-crown { border-left: 6px solid #3b82f6; }
+        .subj-horizon { border-left: 6px solid #2563eb; }
         .subj-sunshine { border-left: 6px solid #1d4ed8; }
         .subj-sci { border-left: 6px solid var(--sci-color); }
         .subj-his { border-left: 6px solid var(--his-color); }
@@ -133,20 +144,25 @@
             pointer-events: none; 
         }
 
-        #g1:checked ~ #content-area .content-g1, 
+        #g1:checked ~ #content-area .content-g1 { display: block; }
         #g2:checked ~ #content-area .content-g2 { display: block; }
+        #g3:checked ~ #content-area .content-g3 { display: block; }
     </style>
+
+
 </head>
 <body>
 
 <header class="app-header">
-    <div class="school-tag">平岡中学校 学年末テスト用</div>
+    <div class="school-badge">平岡中学校 学年末テスト用</div>
     <h1>テスト対策！単語暗記アプリ</h1>
-    <p>
-        学年と科目を選んで学習を始めよう<br>
-        <span class="warning-text">※テスト範囲は少しずれることがあるよ</span>
-    </p>
+    <p>学年と科目を選んで学習を始めよう</p>
+    <div class="warning-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        テスト範囲は少しずれることがあるよ
+    </div>
 </header>
+
 
 <div class="container">
     <input type="radio" name="grade" id="g1" checked>
@@ -166,15 +182,24 @@
     const data = {
         g1: {
             "英語 (Sunshine)": [
-                "1_English_SS_P4.html", "1_English_SS_P5.html", "1_English_SS_P6.html", 
+                "1_English_SS_P6.html", 
                 "1_English_SS_P7.html", "1_English_SS_P8.html", "1_English_SS_P9.html"
             ],
             "理科": [
                 "1_rika_64-82.html", "1_rika_233-247.html"
             ],
             "歴史": [
-                "1_rekishi_63-67.html", "1_rekishi_68-69.html", "1_rekishi_70-71.html", "1_rekishi_72-75.html", 
-                "1_rekishi_78-81.html", "1_rekishi_84-85.html", "1_rekishi_86-89.html"
+                "1_rekishi_42-43.html",
+                "1_rekishi_44-49.html",
+                "1_rekishi_54-55.html",
+                "1_rekishi_56-59.html",
+                "1_rekishi_63-67.html", 
+                "1_rekishi_68-69.html", 
+                "1_rekishi_70-71.html", 
+                "1_rekishi_72-75.html", 
+                "1_rekishi_78-81.html", 
+                "1_rekishi_84-85.html", 
+                "1_rekishi_86-89.html"
             ]
         },
         g2: {
@@ -241,7 +266,6 @@
                 const files = gradeData[subName] || [];
                 const isRangeType = subName === "理科" || subName === "歴史" || subName === "地理";
 
-                // detailsタグから "open" 属性を削除して、初期状態で閉じるように変更
                 finalHtml += `
                     <details class="${cssClass}">
                         <summary>${subName}</summary>
